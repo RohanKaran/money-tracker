@@ -31,7 +31,7 @@ export function TransactionUserPage() {
       <SideBar />
       <Container className="home-container">
         <Row>
-          <Col id="main-home">
+          <Col className={"main-home"}>
             {splitGroups?.length > 0
               ? splitGroups.map((splitUser) => (
                   <TransactionUserCard

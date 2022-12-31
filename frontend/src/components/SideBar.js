@@ -1,12 +1,12 @@
 import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
 import {
   FaCog,
+  FaHistory,
   FaHome,
   FaSignOutAlt,
   FaUser,
   FaUserFriends,
   FaUserMd,
-  FaUsers,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
@@ -35,6 +35,12 @@ export function SideBar() {
         <MenuItem icon={<FaHome />} onClick={() => navigate("/")}>
           Home
         </MenuItem>
+        <MenuItem
+          icon={<FaHistory />}
+          onClick={() => navigate("/transactions")}
+        >
+          Transactions
+        </MenuItem>
         <SubMenu label={"Users"} icon={<FaUser />}>
           <MenuItem icon={<FaUserFriends />}>Friends</MenuItem>
           <MenuItem
@@ -43,7 +49,6 @@ export function SideBar() {
           >
             Transaction Users
           </MenuItem>
-          <MenuItem icon={<FaUsers />}>All Users</MenuItem>
         </SubMenu>
         <SubMenu
           label={

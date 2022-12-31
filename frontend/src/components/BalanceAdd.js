@@ -1,49 +1,23 @@
-import {
-  Button,
-  Form,
-  FormControl,
-  Modal,
-  Tab,
-  Table,
-  Tabs,
-} from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaCut } from "react-icons/fa";
+import { FaCreativeCommonsSamplingPlus } from "react-icons/fa";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../utils/useAxios";
-import SelectUsers from "./SelectUsers";
-import SelectFriends from "./SelectFriends";
 import { baseURL } from "../utils/constants";
 
-export default function SplitAdd() {
+export default function BalanceAdd() {
   const api = useAxios();
   const [show, setShow] = useState(false);
-  const [key, setKey] = useState("friends");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [totalAmount, setTotalAmount] = useState(0);
 
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let dest = [];
-    let amount = [];
-    for (let i in selectedUsers) {
-      if (selectedUsers[i].amount >= 1) {
-        dest.push(selectedUsers[i].id);
-        amount.push(parseInt(selectedUsers[i].amount));
-      }
-    }
     await api
-      .post(baseURL + "/split/create/", {
-        transaction: {
-          name: e.target.name.value,
-          description: e.target.description.value,
-        },
-        destination: dest,
-        amount: amount,
+      .patch(baseURL + "/user/balance/add/", {
+        amount: e.target.amount.value,
       })
       .then((res) => {
         handleClose();
@@ -76,6 +50,10 @@ export default function SplitAdd() {
                   type="number"
                   className="number"
                   placeholder="Enter amount"
+                  onChange={(e) => {
+                    const re = /^[0-9\b]+$/;
+                    re.test(e.target.value);
+                  }}
                   required
                 />
               </Form.Group>
@@ -94,7 +72,8 @@ export default function SplitAdd() {
         style={{ paddingTop: "2rem", width: "15rem" }}
       >
         <Button onClick={handleShow} style={{ width: "10rem" }}>
-          <FaCut style={{ marginBottom: 3 }} /> Add Balance
+          <FaCreativeCommonsSamplingPlus style={{ marginBottom: 3 }} /> Add
+          Balance
         </Button>
       </div>
     </>

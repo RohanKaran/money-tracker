@@ -89,10 +89,22 @@ class SplitAddSerializer(serializers.ModelSerializer):
 class UserSplitSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "email")
+        fields = ("id", "username")
 
 
 class SplitGetSerializer(serializers.ModelSerializer):
+    source = serializers.PrimaryKeyRelatedField(
+        default=serializers.CurrentUserDefault(), read_only=True
+    )
+    destination = UserSplitSerializer(read_only=True)
+
+    class Meta:
+        model = Split
+        fields = "__all__"
+        depth = 1
+
+
+class SplitCompletedGetSerializer(serializers.ModelSerializer):
     source = serializers.PrimaryKeyRelatedField(
         default=serializers.CurrentUserDefault(), read_only=True
     )

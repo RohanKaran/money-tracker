@@ -5,6 +5,7 @@ import TransactionCard from "../components/TransactionCard";
 import { Col, Container, Row } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
 import SplitAdd from "../components/SplitAdd";
+import BalanceAdd from "../components/BalanceAdd";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -75,12 +76,25 @@ export function HomePage() {
       <Container className="home-container">
         <Row>
           <Col className={"main-home"}>
-            <SplitAdd />
-          </Col>
-          <Col className={"main-home"}>Balance : {balance}</Col>
-        </Row>
-        <Row>
-          <Col className={"main-home"}>
+            <Row>
+              <Col xs="auto">
+                <SplitAdd />
+              </Col>
+              <Col xs="auto">
+                <BalanceAdd />
+              </Col>
+              <Col xs="auto">
+                <div
+                  style={{
+                    fontFamily: "Abril Fatface",
+                    fontSize: "x-large",
+                    paddingTop: "2rem",
+                  }}
+                >
+                  Balance : {balance}
+                </div>
+              </Col>
+            </Row>
             {transactions?.length > 0
               ? transactions.map((transaction) => (
                   <TransactionCard

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEraser, FaPaperPlane } from "react-icons/fa";
 import { baseURL } from "../utils/constants";
@@ -10,7 +10,7 @@ import { Logo } from "../components/Logo";
 function RegisterPage() {
   const [alert, setAlert] = useState(null);
   const [variant, setVariant] = useState("danger");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (e.target.formPassword.value !== e.target.formConfirmPassword.value) {
@@ -30,10 +30,10 @@ function RegisterPage() {
         e.target.formPassword.value = null;
         e.target.formConfirmPassword.value = null;
         setVariant("success");
-				setAlert("Successfully registered. Redirecting...");
-				setTimeout(() => {
-					navigate("/login");
-				}, 2000);
+        setAlert("Successfully registered. Redirecting...");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       })
       .catch((err) => {
         setVariant("danger");

@@ -6,6 +6,7 @@ from money_tracker.api.split.serializers import (
     SplitAddSerializer,
     SplitGetSerializer,
     SplitGroupSerializer,
+    SplitCompletedGetSerializer,
 )
 from money_tracker.models import Split
 
@@ -29,6 +30,14 @@ class SplitGetView(generics.ListAPIView):
         return Split.objects.filter(
             source=self.request.user, completed=False, amount__lt=0
         )
+
+
+class SplitCompletedGetView(generics.ListAPIView):
+    serializer_class = SplitCompletedGetSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Split.objects.filter(source=self.request.user, completed=True)
 
 
 class SplitGroupView(generics.ListAPIView):
