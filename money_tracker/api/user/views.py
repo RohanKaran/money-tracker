@@ -1,16 +1,22 @@
+import json
+
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from rest_framework import generics, viewsets, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.exceptions import ValidationError
 
 from money_tracker.api import utils
 from money_tracker.api.user.serializers import (
     UserSerializer,
     RegisterSerializer,
     LoginSerializer,
+    BalanceSerializer,
+    BalanceUpdateSerializer,
 )
+from money_tracker.models import Balance
 
 
 class UserViewSet(ModelViewSet):
@@ -70,3 +76,30 @@ class UserGetAllView(generics.ListAPIView):
 
     def get_queryset(self):
         return User.objects.all()
+
+
+class BalanceView(generics.RetrieveAPIView):
+    serializer_class = BalanceSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return Balance.objects.get(user=self.request.user)
+
+
+class BalanceUpdateView(viewsets.ViewSet):
+    serializer_class = BalanceUpdateSerializer
+    permission_classes = (IsAuthenticated,)
+    queryset = Balance.objects.all()
+
+    def patch(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.request.user
+        if user.balance.balance + serializer.validated_data["amount"] < 1:
+            raise ValidationError("You don't have enough amount")
+
+        user.balance.balance += serializer.validated_data["amount"]
+        user.balance.save()
+        return Response(
+            data={"balance": user.balance.balance}, status=status.HTTP_200_OK
+        )

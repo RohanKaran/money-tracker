@@ -56,9 +56,9 @@
   width: 300px;
 }
 
-#main-home {
-  flex: 1 1;
-  padding-left: 350px;
+.main-home {
+  flex: 1 1 !important;
+  padding-left: 350px !important;
 }
 
 .header-home {

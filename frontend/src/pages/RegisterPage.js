@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { FaEraser, FaPaperPlane } from "react-icons/fa";
 import { baseURL } from "../utils/constants";
+import { Logo } from "../components/Logo";
 
 function RegisterPage() {
   const [alert, setAlert] = useState(null);
   const [variant, setVariant] = useState("danger");
-
+  const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!(e.target.formUsername.value && e.target.formBasicEmail.value)) {
-      setVariant("success");
-      setAlert("Invalid username or email");
-      return;
-    }
     if (e.target.formPassword.value !== e.target.formConfirmPassword.value) {
-      setVariant("success");
+      setVariant("warning");
       setAlert("Passwords do not match");
       return;
     }
@@ -34,17 +30,25 @@ function RegisterPage() {
         e.target.formPassword.value = null;
         e.target.formConfirmPassword.value = null;
         setVariant("success");
-        setAlert("Check your email to complete registration");
+				setAlert("Successfully registered. Redirecting...");
+				setTimeout(() => {
+					navigate("/login");
+				}, 2000);
       })
       .catch((err) => {
         setVariant("danger");
-        setAlert(err.response.data.detail.toString());
+        setAlert(
+          err.response.data?.password[0]?.toString() ||
+            err.response.data?.username[0]?.toString() ||
+            err.response.data?.email[0]?.toString() ||
+            "Something went wrong"
+        );
       });
   };
 
   return (
     <div align="center" id="register">
-      {/*<Logo />*/}
+      <Logo />
       <Card style={{ width: "20rem" }}>
         {alert ? <Alert variant={variant}>{alert}</Alert> : null}
         <Form onSubmit={handleSubmit}>
@@ -68,11 +72,8 @@ function RegisterPage() {
                 autoComplete="email"
                 required
               />
-              <Form.Text className="text-muted">
-                We&apos;ll never share your email with anyone else.
-              </Form.Text>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"

@@ -45,6 +45,8 @@ class SplitAddSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "The number of amounts and destinations must be equal."
             )
+        if len(set(attrs["destination"])) != len(attrs["destination"]):
+            raise serializers.ValidationError("The destinations must be unique.")
         return attrs
 
     def create(self, validated_data):

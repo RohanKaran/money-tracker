@@ -3,6 +3,8 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from money_tracker.models import Balance
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -44,7 +46,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class FriendSerializer(serializers.ModelSerializer):
+class BalanceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ["username", "email"]
+        model = Balance
+        fields = "__all__"
+
+
+class BalanceUpdateSerializer(serializers.ModelSerializer):
+    amount = serializers.IntegerField(allow_null=False)
+
+    class Meta:
+        model = Balance
+        fields = ("amount",)
