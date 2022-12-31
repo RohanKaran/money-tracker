@@ -26,7 +26,9 @@ class SplitGetView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Split.objects.filter(source=self.request.user, completed=False, amount__lt=0)
+        return Split.objects.filter(
+            source=self.request.user, completed=False, amount__lt=0
+        )
 
 
 class SplitGroupView(generics.ListAPIView):
