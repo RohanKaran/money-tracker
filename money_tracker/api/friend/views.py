@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticated
 
 from money_tracker.api.friend.serializers import (
@@ -24,10 +24,10 @@ class FriendAddView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         if self.request.user.id == self.kwargs["user_id"]:
-            raise ValidationError("you cannot add yourself as a friend")
+            raise PermissionDenied("you cannot add yourself as a friend")
         try:
             user2 = User.objects.get(id=self.kwargs["user_id"])
         except User.DoesNotExist:
-            raise ValidationError("Requested user does not exist")
+            raise NotFound("Requested user does not exist")
 
         serializer.save(user1=self.request.user, user2=user2)

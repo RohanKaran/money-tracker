@@ -4,13 +4,13 @@ import { baseURL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 
-export default function SelectUsers(props) {
+export default function SelectFriends(props) {
   const api = useAxios();
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   useEffect(() => {
     api
-      .get(baseURL + "/user/")
+      .get(baseURL + "/friend/")
       .then((res) => setUsers(res.data))
       .catch((e) => {
         if (e.status === 401 || e.status === 403) {
@@ -35,10 +35,10 @@ export default function SelectUsers(props) {
           ? users.map((user) => (
               <ListGroupItem
                 style={{ width: "100%" }}
-                key={user.id}
-                onClick={() => appendUser(user)}
+                key={user.user2.id}
+                onClick={() => appendUser(user.user2)}
               >
-                {user.username}
+                {user.user2.username}
               </ListGroupItem>
             ))
           : null}

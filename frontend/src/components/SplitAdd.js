@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../utils/useAxios";
 import SelectUsers from "./SelectUsers";
+import SelectFriends from "./SelectFriends";
 
 export default function SplitAdd() {
   const api = useAxios();
@@ -96,15 +97,13 @@ export default function SplitAdd() {
                 onSelect={(k) => setKey(k)}
               >
                 <Tab title={"Friends"} eventKey={"friends"}>
-                  <SelectUsers
-                    url={"/friend/"}
+                  <SelectFriends
                     selectedUsers={selectedUsers}
                     setSelectedUsers={setSelectedUsers}
                   />
                 </Tab>
                 <Tab title={"All Users"} eventKey={"all-users"}>
                   <SelectUsers
-                    url={"/user/"}
                     selectedUsers={selectedUsers}
                     setSelectedUsers={setSelectedUsers}
                   />
