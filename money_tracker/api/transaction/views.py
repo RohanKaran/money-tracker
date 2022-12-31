@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 
 from money_tracker.api.transaction.serializers import TransactionSerializer
@@ -11,3 +12,19 @@ class TransactionView(generics.ListAPIView):
 
     def get_queryset(self):
         return Transaction.objects.filter(created_by=self.request.user)
+
+
+class TransactionDeleteView(generics.DestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Transaction.objects.all()
+
+    def perform_destroy(self, instance):
+        try:
+            transaction = Transaction.objects.get(id=self.kwargs["pk"])
+        except Transaction.DoesNotExist:
+            raise ValidationError("Requested transaction does not exist")
+        if transaction.created_by.id != self.request.user.id:
+            raise ValidationError("You cannot delete this transaction")
+
+        transaction.delete()
+
