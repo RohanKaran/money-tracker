@@ -2,16 +2,11 @@ import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
 import {
   FaCog,
   FaHome,
-  FaKey,
-  FaLock,
-  FaPencilAlt,
   FaSignOutAlt,
   FaUser,
   FaUserFriends,
   FaUserMd,
   FaUsers,
-  FaUserSlash,
-  FaUserTag,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";

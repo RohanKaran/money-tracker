@@ -1,15 +1,11 @@
-import {
-  Col,
-  Container,
-  Image,
-  Row,
-} from "react-bootstrap";
+import { Col, Container, Image, Row } from "react-bootstrap";
 import React from "react";
 
 export default function TransactionUserCard(props) {
   return (
     <div className="transaction-user-card">
-      <br/><br/>
+      <br />
+      <br />
       <Container>
         <Row>
           <Col>

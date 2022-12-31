@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../utils/useAxios";
-import TransactionCard from "../components/TransactionCard";
 import { Col, Container, Row } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
 import TransactionUserCard from "../components/TransactionUserCard";

@@ -4,6 +4,7 @@ import useAxios from "../utils/useAxios";
 import TransactionCard from "../components/TransactionCard";
 import { Col, Container, Row } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
+import SplitAdd from "../components/SplitAdd";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ export function HomePage() {
       <Container className="home-container">
         <Row>
           <Col id="main-home">
+            <SplitAdd />
             {transactions?.length > 0
               ? transactions.map((transaction) => (
                   <TransactionCard

@@ -4,8 +4,7 @@ import AuthContext from "../context/AuthContext";
 import { baseURL } from "./constants";
 
 const useAxios = () => {
-  const { authTokens, setUser, setCurrentUser, setAuthTokens } =
-    useContext(AuthContext);
+  const { authTokens } = useContext(AuthContext);
 
   // axiosInstance.interceptors.request.use(async (req) => {
   // 	return req;

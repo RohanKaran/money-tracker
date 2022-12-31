@@ -1,14 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import PasswordModal from "./PasswordModal";
+import SplitAdd from "./SplitAdd";
 import NoteModal from "./NoteModal";
 
 export default function HeaderHome() {
   return (
     <Row>
       <Col xs="auto">
-        <PasswordModal />
+        <SplitAdd />
       </Col>
       <Col xs="auto">
         <NoteModal />
