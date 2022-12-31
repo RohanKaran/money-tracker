@@ -10,26 +10,33 @@ export function HomePage() {
   const navigate = useNavigate();
   const api = useAxios();
   const [transactions, setTransactions] = useState([]);
+  const [sp, setSp] = useState([]);
+  const[trans, setTrans] = useState([]);
+
+  useEffect(() => {
+    const getSplits = async () =>
+      await api
+        .get("/split/")
+        .then(async (r) => {
+          setSp(r.data);
+        })
+        .catch((e) => {
+          if (e.status === 401 || e.status === 403) {
+            navigate("/login");
+          }
+          console.log(e);
+        });
+    getSplits();
+    // eslint-disable-next-line
+  }, []);
+
 
   useEffect(() => {
     const getTransactions = async () =>
       await api
-        .get("/split/")
+        .get("/transaction/")
         .then(async (r) => {
-          // console.log(r.data);
-          setTransactions(r.data);
-          await api
-            .get("/transaction/")
-            .then((r) => {
-              // console.log(r.data);
-              setTransactions(() => [...r.data]);
-            })
-            .catch((e) => {
-              if (e.status === 401 || e.status === 403) {
-                navigate("/login");
-              }
-              console.log(e);
-            });
+          setTrans(r.data);
         })
         .catch((e) => {
           if (e.status === 401 || e.status === 403) {
@@ -40,6 +47,10 @@ export function HomePage() {
     getTransactions();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    setTransactions([...sp, ...trans])
+  }, [sp, trans])
 
   return (
     <div>

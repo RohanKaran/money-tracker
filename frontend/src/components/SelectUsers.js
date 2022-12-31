@@ -18,10 +18,11 @@ export default function SelectUsers(props) {
         }
         console.log(e);
       });
+    // eslint-disable-next-line
   }, []);
   const appendUser = (u) => {
     let user = u;
-    u.amount = null;
+    u.amount = 0;
     for (let i in props.selectedUsers) {
       if (user.id === props.selectedUsers[i].id) return;
     }

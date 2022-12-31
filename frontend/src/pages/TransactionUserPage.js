@@ -15,7 +15,6 @@ export function TransactionUserPage() {
       await api
         .get("/split/group/")
         .then(async (r) => {
-          // console.log(r.data);
           setSplitGroups(r.data);
         })
         .catch((e) => {
@@ -27,7 +26,6 @@ export function TransactionUserPage() {
     getSplitGroups();
     // eslint-disable-next-line
   }, []);
-  console.log(splitGroups);
   return (
     <div>
       <SideBar />

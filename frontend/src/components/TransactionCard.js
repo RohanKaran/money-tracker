@@ -1,7 +1,6 @@
 import {
   Button,
   Col,
-  Collapse,
   Container,
   Form,
   Image,
@@ -82,7 +81,6 @@ export default function TransactionCard(props) {
                     required
                     as="textarea"
                     rows={6}
-                    // defaultValue={decrypt(props.note.content)}
                   />
                 </Form.Group>
               </div>
@@ -136,7 +134,7 @@ export default function TransactionCard(props) {
                 <Row style={{ fontSize: "large", fontWeight: "500" }}>
                   {props.transaction.name
                     ? props.transaction.name
-                    : props.transaction.transaction.name}
+                    : props.transaction.transaction?.name}
                 </Row>
                 <Row>
                   {props.transaction.name

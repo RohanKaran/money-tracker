@@ -34,7 +34,6 @@ export function AuthProvider({ children }) {
         password: e.target.password.value,
       })
       .then(async (res) => {
-        console.log(res);
         setAuthTokens({
           token: res.data.token,
         });

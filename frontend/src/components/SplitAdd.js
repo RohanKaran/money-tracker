@@ -1,4 +1,12 @@
-import { Button, Form, Modal, Tab, Tabs } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  FormControl,
+  Modal,
+  Tab,
+  Table,
+  Tabs,
+} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaCut } from "react-icons/fa";
 import React, { useState } from "react";
@@ -6,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import useAxios from "../utils/useAxios";
 import SelectUsers from "./SelectUsers";
 import SelectFriends from "./SelectFriends";
+import { baseURL } from "../utils/constants";
 
 export default function SplitAdd() {
   const api = useAxios();
@@ -14,25 +23,35 @@ export default function SplitAdd() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // await api
-    //   .post("/password/add-password/", {
-    //     title: e.target.title.value,
-    //     username: e.target.username.value,
-    //     password: encryptedPassword.password,
-    //     iv: encryptedPassword.iv,
-    //     website: e.target.website.value,
-    //   })
-    //   .then(() => {
-    //     handleClose();
-    //     history.push("/");
-    //     window.location.reload();
-    //   })
-    //   .catch((err) => alert(err.data));
+    let dest = [];
+    let amount = [];
+    for (let i in selectedUsers) {
+      if (selectedUsers[i].amount >= 1) {
+        dest.push(selectedUsers[i].id);
+        amount.push(parseInt(selectedUsers[i].amount));
+      }
+    }
+    await api
+      .post(baseURL + "/split/create/", {
+        transaction: {
+          name: e.target.name.value,
+          description: e.target.description.value,
+        },
+        destination: dest,
+        amount: amount,
+      })
+      .then((res) => {
+        handleClose();
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((e) => alert(e));
   };
-  console.log(selectedUsers);
   return (
     <>
       <Modal
@@ -65,30 +84,59 @@ export default function SplitAdd() {
                   Description (optional)
                 </Form.Label>
                 <Form.Control
-                  className="text-area"
+                  className="textarea"
                   type="text"
                   placeholder="Enter description"
+                  as={"textarea"}
+                  rows={2}
                 />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="username" required>
-                <Form.Label className="form-label">Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  className="text-area"
-                  placeholder="Enter username/email/phone no"
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="password">
-                <Form.Label className="form-label">Password</Form.Label>
-                <Form.Label />
-                <Form.Control
-                  className="text-area1"
-                  placeholder="Password"
-                  name="password"
-                  autoComplete="current-password"
-                  required
-                />
+              <Form.Group>
+                <Form.Label className="form-label">Selected Users</Form.Label>
+                {selectedUsers?.length > 0 ? (
+                  <div>
+                    <Table>
+                      <thead>
+                        <tr>
+                          <th>Usernames</th>
+                          <th>Amounts</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedUsers.map((selectedUser) => (
+                          <tr>
+                            <td>{selectedUser.username}</td>
+                            <td>
+                              <FormControl
+                                type={"number"}
+                                defaultValue={0}
+                                onChange={(e) => {
+                                  const re = /^[0-9\b]+$/;
+                                  if (
+                                    e.target.value === "" ||
+                                    re.test(e.target.value)
+                                  ) {
+                                    selectedUser.amount = parseInt(
+                                      e.target.value
+                                    );
+                                    let ta = 0;
+                                    for (let i in selectedUsers) {
+                                      if (!isNaN(selectedUsers[i].amount))
+                                        ta += selectedUsers[i].amount;
+                                    }
+                                    setTotalAmount(ta);
+                                  }
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
+                ) : (
+                  <div>You have not selected any users yet</div>
+                )}
               </Form.Group>
               <Tabs
                 className="mb-3"
@@ -112,8 +160,9 @@ export default function SplitAdd() {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="success" type="submit">
-              Add
+            <div>Total Amount : {totalAmount}</div>
+            <Button variant="success" type="submit" style={{ marginLeft: 20 }}>
+              Create
             </Button>
           </Modal.Footer>
         </Form>

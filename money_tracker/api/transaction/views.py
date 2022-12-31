@@ -27,4 +27,3 @@ class TransactionDeleteView(generics.DestroyAPIView):
             raise PermissionDenied("You cannot delete this transaction")
 
         transaction.delete()
-

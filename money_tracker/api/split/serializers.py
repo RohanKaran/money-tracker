@@ -14,7 +14,7 @@ class SplitSerializer(serializers.ModelSerializer):
 
 class TransactionSplitSerializer(serializers.ModelSerializer):
     name = serializers.CharField(allow_null=False, allow_blank=False)
-    description = serializers.CharField(required=False, default="")
+    description = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = Transaction
@@ -31,6 +31,7 @@ class SplitAddSerializer(serializers.ModelSerializer):
     amount = serializers.ListField(
         required=True,
         allow_null=False,
+        allow_empty=False,
         child=serializers.IntegerField(allow_null=False, min_value=1),
     )
     transaction = TransactionSplitSerializer(allow_null=False)
