@@ -2,15 +2,23 @@ import {
   Button,
   Col,
   Container,
+  DropdownButton,
   Form,
   Image,
   Modal,
   Row,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaEye, FaEyeSlash, FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import {
+  FaEllipsisH,
+  FaEye,
+  FaEyeSlash,
+  FaPencilAlt,
+  FaTrashAlt,
+} from "react-icons/fa";
 import React, { useState } from "react";
 import useAxios from "../utils/useAxios";
+import DropdownItem from "react-bootstrap/DropdownItem";
 
 export default function TransactionCard(props) {
   const [show, setShow] = useState(false);
@@ -141,44 +149,65 @@ export default function TransactionCard(props) {
                     ? "You have split " + props.transaction.amount
                     : props.transaction.destination.username +
                       " have asked for " +
-                      props.transaction.amount}
+                      -parseInt(props.transaction.amount)}
                 </Row>
               </Col>
               <Col>
-                <Button
+                <DropdownButton
                   style={{ float: "right" }}
                   className="bg-transparent"
-                  onClick={handleShow}
-                  variant="outline-danger"
+                  key={"start"}
+                  drop={"start"}
+                  variant="outline-secondary"
+                  title={<FaEllipsisH />}
                 >
-                  <FaTrashAlt
-                    style={{ marginBottom: 4 }}
-                    className="text-danger"
-                  />
-                </Button>
-                <Button
-                  style={{ float: "right", marginRight: "1rem" }}
-                  onClick={handleShowUpdate}
-                  variant="outline-success"
-                >
-                  <FaPencilAlt style={{ marginBottom: 4 }} />
-                </Button>
-                <Button
-                  onClick={() => setOpen(!open)}
-                  aria-controls="example-collapse-text"
-                  aria-expanded={open}
-                  className="bg-transparent"
-                  variant="outline-dark"
-                  style={{ float: "right", marginRight: "1rem" }}
-                >
-                  <div className="text-dark">
-                    {open ? (
-                      <FaEyeSlash style={{ marginBottom: 4 }} />
-                    ) : (
-                      <FaEye style={{ marginBottom: 4 }} />
-                    )}
-                  </div>
-                </Button>
+                  {props.transaction.name ? (
+                    <div>
+                      <DropdownItem onClick={handleShowUpdate}>
+                        Edit
+                      </DropdownItem>
+                      <DropdownItem onClick={handleShow}>Delete</DropdownItem>
+                    </div>
+                  ) : (
+                    <DropdownItem>Pay</DropdownItem>
+                  )}
+
+                  <DropdownItem>Details</DropdownItem>
+                </DropdownButton>
+                {/*<Button*/}
+                {/*  style={{ float: "right" }}*/}
+                {/*  className="bg-transparent"*/}
+                {/*  onClick={handleShow}*/}
+                {/*  variant="outline-danger"*/}
+                {/*>*/}
+                {/*  <FaTrashAlt*/}
+                {/*    style={{ marginBottom: 4 }}*/}
+                {/*    className="text-danger"*/}
+                {/*  />*/}
+                {/*</Button>*/}
+                {/*<Button*/}
+                {/*  style={{ float: "right", marginRight: "1rem" }}*/}
+                {/*  onClick={handleShowUpdate}*/}
+                {/*  variant="outline-success"*/}
+                {/*>*/}
+                {/*  <FaPencilAlt style={{ marginBottom: 4 }} />*/}
+                {/*</Button>*/}
+                {/*<Button*/}
+                {/*  onClick={() => setOpen(!open)}*/}
+                {/*  aria-controls="example-collapse-text"*/}
+                {/*  aria-expanded={open}*/}
+                {/*  className="bg-transparent"*/}
+                {/*  variant="outline-dark"*/}
+                {/*  style={{ float: "right", marginRight: "1rem" }}*/}
+                {/*>*/}
+                {/*  <div className="text-dark">*/}
+                {/*    {open ? (*/}
+                {/*      <FaEyeSlash style={{ marginBottom: 4 }} />*/}
+                {/*    ) : (*/}
+                {/*      <FaEye style={{ marginBottom: 4 }} />*/}
+                {/*    )}*/}
+                {/*  </div>*/}
+                {/*</Button>*/}
               </Col>
             </Row>
           </Col>

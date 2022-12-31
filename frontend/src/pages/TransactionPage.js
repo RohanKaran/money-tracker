@@ -31,32 +31,36 @@ export default function TransactionPage() {
       <Container className="home-container">
         <Row>
           <Col className={"main-home"}>
-            <Table style={{ marginTop: "2rem" }}>
-              <thead>
-                <tr>
-                  <th>Transaction ID</th>
-                  <th>Sender/Recipient</th>
-                  <th>Amount</th>
-                  <th>Created</th>
-                  <th>Completed</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((transaction) => (
-                  <tr key={transaction.id}>
-                    <td>{transaction.transaction.id}</td>
-                    <td>{transaction.destination.username}</td>
-                    <td>{transaction.amount}</td>
-                    <td>
-                      {new Date(transaction.created_at).toLocaleTimeString()}
-                    </td>
-                    <td>
-                      {new Date(transaction.updated_at).toLocaleTimeString()}
-                    </td>
+            {transactions?.length > 0 ? (
+              <Table style={{ marginTop: "2rem" }}>
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Sender/Recipient</th>
+                    <th>Amount</th>
+                    <th>Created</th>
+                    <th>Completed</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {transactions.map((transaction) => (
+                    <tr key={transaction.id}>
+                      <td>{transaction.transaction.id}</td>
+                      <td>{transaction.destination.username}</td>
+                      <td>{transaction.amount}</td>
+                      <td>
+                        {new Date(transaction.created_at).toLocaleTimeString()}
+                      </td>
+                      <td>
+                        {new Date(transaction.updated_at).toLocaleTimeString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            ) : (
+              <div style={{ marginTop: "2rem" }}>No transaction to show</div>
+            )}
           </Col>
         </Row>
       </Container>

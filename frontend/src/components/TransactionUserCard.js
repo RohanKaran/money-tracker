@@ -26,7 +26,7 @@ export default function TransactionUserCard(props) {
                 <Row>
                   {props.splitUser?.total_amount > 0
                     ? "You owe " + props.splitUser.total_amount
-                    : "owes you " + props.splitUser.total_amount}
+                    : "owes you " + -parseInt(props.splitUser.total_amount)}
                 </Row>
               </Col>
             </Row>
