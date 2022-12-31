@@ -95,9 +95,16 @@ export default function SplitAdd() {
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
               >
-                <Tab title={"Friends"} eventKey={"friends"}></Tab>
+                <Tab title={"Friends"} eventKey={"friends"}>
+                  <SelectUsers
+                    url={"/friend/"}
+                    selectedUsers={selectedUsers}
+                    setSelectedUsers={setSelectedUsers}
+                  />
+                </Tab>
                 <Tab title={"All Users"} eventKey={"all-users"}>
                   <SelectUsers
+                    url={"/user/"}
                     selectedUsers={selectedUsers}
                     setSelectedUsers={setSelectedUsers}
                   />

@@ -41,7 +41,6 @@ export function HomePage() {
     // eslint-disable-next-line
   }, []);
 
-  console.log(transactions);
   return (
     <div>
       <SideBar />

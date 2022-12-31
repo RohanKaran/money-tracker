@@ -10,7 +10,7 @@ export default function SelectUsers(props) {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     api
-      .get(baseURL + "/user/")
+      .get(baseURL + props.url)
       .then((res) => setUsers(res.data))
       .catch((e) => {
         if (e.status === 401 || e.status === 403) {

@@ -8,4 +8,5 @@ urlpatterns = [
     path("user/", include("money_tracker.api.user.urls")),
     path("transaction/", include("money_tracker.api.transaction.urls")),
     path("split/", include("money_tracker.api.split.urls")),
+    path("friend/", include("money_tracker.api.friend.urls")),
 ]
