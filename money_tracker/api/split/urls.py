@@ -4,6 +4,6 @@ from money_tracker.api.split.views import SplitAddView, SplitGetView, SplitGroup
 
 urlpatterns = [
     path("", SplitGetView.as_view(), name="get-split"),
-    path("add-split/", SplitAddView.as_view(), name="add-split"),
-    path("get-split-group/", SplitGroupView.as_view(), name="group-split"),
+    path("create/", SplitAddView.as_view(), name="create-split"),
+    path("group/", SplitGroupView.as_view(), name="group-split"),
 ]

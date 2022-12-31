@@ -1,10 +1,17 @@
 import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
 import {
-  FaCog, FaHome,
+  FaCog,
+  FaHome,
   FaKey,
   FaLock,
   FaPencilAlt,
-  FaSignOutAlt, FaUser, FaUserFriends, FaUserMd, FaUsers, FaUserSlash, FaUserTag,
+  FaSignOutAlt,
+  FaUser,
+  FaUserFriends,
+  FaUserMd,
+  FaUsers,
+  FaUserSlash,
+  FaUserTag,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
@@ -34,23 +41,19 @@ export function SideBar() {
           Home
         </MenuItem>
         <SubMenu label={"Users"} icon={<FaUser />}>
-          <MenuItem icon={<FaUserFriends/>}>
-            Friends
-          </MenuItem>
-          <MenuItem icon={<FaUserMd/>}>
+          <MenuItem icon={<FaUserFriends />}>Friends</MenuItem>
+          <MenuItem
+            icon={<FaUserMd />}
+            onClick={() => navigate("/transaction-users")}
+          >
             Transaction Users
           </MenuItem>
-          <MenuItem icon={<FaUsers/>}>
-            All Users
-          </MenuItem>
+          <MenuItem icon={<FaUsers />}>All Users</MenuItem>
         </SubMenu>
         <SubMenu
           label={
             <div>
-              <div className="text-white" style={{ fontWeight: 500 }}>
-                {currentUser?.username}
-              </div>
-              <div>{currentUser?.email}</div>
+              <div style={{ fontWeight: 500 }}>{currentUser?.username}</div>
             </div>
           }
           icon={
@@ -59,7 +62,6 @@ export function SideBar() {
             </div>
           }
         >
-          <MenuItem icon={<FaKey />}>Change Password</MenuItem>
           <MenuItem icon={<FaSignOutAlt />} onClick={logoutUser}>
             Logout
           </MenuItem>

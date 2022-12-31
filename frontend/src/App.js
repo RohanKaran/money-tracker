@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import { HomePage } from "./pages/HomePage";
 import { AuthProvider } from "./context/AuthContext";
 import { ProSidebarProvider } from "react-pro-sidebar";
+import { TransactionUserPage } from "./pages/TransactionUserPage";
 
 export default function App() {
   return (
@@ -24,6 +25,16 @@ export default function App() {
                 <ProtectedRoute>
                   <ProSidebarProvider>
                     <HomePage />
+                  </ProSidebarProvider>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/transaction-users"
+              element={
+                <ProtectedRoute>
+                  <ProSidebarProvider>
+                    <TransactionUserPage />
                   </ProSidebarProvider>
                 </ProtectedRoute>
               }

@@ -42,6 +42,8 @@ export function AuthProvider({ children }) {
           "authTokens",
           JSON.stringify({ token: res.data.token })
         );
+        setCurrentUser(res.data.user);
+        localStorage.setItem("currentUser", JSON.stringify(res.data.user));
         setLoading(false);
         navigate("/");
       })
