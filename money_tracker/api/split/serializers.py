@@ -93,15 +93,23 @@ class UserSplitSerializer(serializers.ModelSerializer):
 
 
 class SplitGetSerializer(serializers.ModelSerializer):
-    source = serializers.PrimaryKeyRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
-    destination = UserSplitSerializer(read_only=True)
+    source = serializers.IntegerField(write_only=True)
+    transaction = serializers.IntegerField(read_only=True)
+    total_amount = serializers.IntegerField(read_only=True)
+    transaction__name = serializers.CharField(read_only=True)
+    transaction__id = serializers.IntegerField(read_only=True)
+    transaction__created_by__username = serializers.CharField(read_only=True)
 
     class Meta:
         model = Split
-        fields = "__all__"
-        depth = 1
+        fields = (
+            "source",
+            "transaction",
+            "total_amount",
+            "transaction__id",
+            "transaction__name",
+            "transaction__created_by__username",
+        )
 
 
 class SplitCompletedGetSerializer(serializers.ModelSerializer):

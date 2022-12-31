@@ -27,8 +27,16 @@ class SplitGetView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Split.objects.filter(
-            source=self.request.user, completed=False, amount__lt=0
+        return (
+            Split.objects.values(
+                "source",
+                "transaction",
+                "transaction__name",
+                "transaction__id",
+                "transaction__created_by__username",
+            )
+            .filter(source=self.request.user, completed=False)
+            .annotate(total_amount=Sum("amount"))
         )
 
 

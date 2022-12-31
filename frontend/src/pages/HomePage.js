@@ -11,8 +11,6 @@ export function HomePage() {
   const navigate = useNavigate();
   const api = useAxios();
   const [transactions, setTransactions] = useState([]);
-  const [sp, setSp] = useState([]);
-  const [trans, setTrans] = useState([]);
   const [balance, setBalance] = useState(null);
 
   useEffect(() => {
@@ -20,7 +18,7 @@ export function HomePage() {
       await api
         .get("/split/")
         .then(async (r) => {
-          setSp(r.data);
+          setTransactions(r.data);
         })
         .catch((e) => {
           if (e.status === 401 || e.status === 403) {
@@ -31,27 +29,6 @@ export function HomePage() {
     getSplits();
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    const getTransactions = async () =>
-      await api
-        .get("/transaction/")
-        .then(async (r) => {
-          setTrans(r.data);
-        })
-        .catch((e) => {
-          if (e.status === 401 || e.status === 403) {
-            navigate("/login");
-          }
-          console.log(e);
-        });
-    getTransactions();
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    setTransactions([...sp, ...trans]);
-  }, [sp, trans]);
 
   useEffect(() => {
     const getBalance = async () =>
@@ -98,7 +75,7 @@ export function HomePage() {
             {transactions?.length > 0
               ? transactions.map((transaction) => (
                   <TransactionCard
-                    key={transaction.id}
+                    key={transaction.transaction__id}
                     transaction={transaction}
                   />
                 ))

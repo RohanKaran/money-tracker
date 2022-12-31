@@ -19,6 +19,7 @@ import {
 import React, { useState } from "react";
 import useAxios from "../utils/useAxios";
 import DropdownItem from "react-bootstrap/DropdownItem";
+import { baseURL } from "../utils/constants";
 
 export default function TransactionCard(props) {
   const [show, setShow] = useState(false);
@@ -44,9 +45,7 @@ export default function TransactionCard(props) {
   };
   const Delete = async () => {
     await api
-      .delete(
-        `${`${process.env.REACT_APP_BACKEND_URL}/note/delete/${props.note.id}/`}`
-      )
+      .delete(baseURL + `/transaction/${props.key}/delete/`)
       .then(() => {
         handleClose();
         window.location.reload();
@@ -110,7 +109,7 @@ export default function TransactionCard(props) {
         size="md"
         style={{ fontFamily: "Montserrat" }}
       >
-        <Modal.Header closeButton>DELETE NOTE</Modal.Header>
+        <Modal.Header closeButton>Delete Transaction</Modal.Header>
         <Modal.Body>
           <div style={{ fontSize: "2rem" }}>Are you sure?</div>
           This action cannot be undone.
@@ -140,16 +139,14 @@ export default function TransactionCard(props) {
               </Col>
               <Col>
                 <Row style={{ fontSize: "large", fontWeight: "500" }}>
-                  {props.transaction.name
-                    ? props.transaction.name
-                    : props.transaction.transaction?.name}
+                  {props.transaction.transaction__name}
                 </Row>
                 <Row>
-                  {props.transaction.name
-                    ? "You have split " + props.transaction.amount
-                    : props.transaction.destination.username +
+                  {props.transaction.total_amount > 0
+                    ? "You have split " + props.transaction.total_amount
+                    : props.transaction.transaction__created_by__username +
                       " have asked for " +
-                      -parseInt(props.transaction.amount)}
+                      -parseInt(props.transaction.total_amount)}
                 </Row>
               </Col>
               <Col>
