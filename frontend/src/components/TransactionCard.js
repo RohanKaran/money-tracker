@@ -11,10 +11,6 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   FaEllipsisH,
-  FaEye,
-  FaEyeSlash,
-  FaPencilAlt,
-  FaTrashAlt,
 } from "react-icons/fa";
 import React, { useState } from "react";
 import useAxios from "../utils/useAxios";
@@ -25,11 +21,14 @@ export default function TransactionCard(props) {
   const [show, setShow] = useState(false);
   const [showupdate, setShowupdate] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [showPay, setShowPay] = useState(false);
   const [details, setDetails] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseUpdate = () => setShowupdate(false);
   const handleShowUpdate = () => setShowupdate(true);
+  const handleClosePay = () => setShowPay(false);
+  const handleShowPay = () => setShowPay(true);
   const handleCloseDetails = () => setShowDetails(false);
   const handleShowDetails = () => setShowDetails(true);
   const api = useAxios();
@@ -60,6 +59,19 @@ export default function TransactionCard(props) {
       })
       .catch((err) => console.log(err));
   };
+
+  const Pay = async () => {
+    await api
+      .post(
+        baseURL + `/split/${props.transaction.transaction__id}/pay/`
+      )
+      .then(() => {
+        handleClosePay();
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
 
   const getDetails = async () => {
     await api
@@ -120,7 +132,6 @@ export default function TransactionCard(props) {
       </div>
       <Modal
         contentClassName="custom-modal"
-        id="modal"
         show={show}
         onHide={handleClose}
         align="center"
@@ -144,6 +155,33 @@ export default function TransactionCard(props) {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal
+        contentClassName="custom-modal"
+        id="modal"
+        show={showPay}
+        onHide={handleClosePay}
+        align="center"
+        centered
+        size="md"
+        style={{ fontFamily: "Montserrat" }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Payment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div style={{ fontSize: "2rem" }}>Are you sure?</div>
+          You will pay {-parseInt(props.transaction.total_amount)} to {props.transaction.transaction__created_by__username}.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={Pay}>
+            Yes
+          </Button>
+          <Button variant="outline-secondary" onClick={handleClosePay}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Modal
         contentClassName="custom-modal"
         id="modal"
@@ -158,9 +196,21 @@ export default function TransactionCard(props) {
           <Modal.Title>{props.transaction.transaction__name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div align={"left"}>
+            {props.transaction.total_amount > 0
+              ? "You have split " + props.transaction.total_amount
+              : props.transaction.transaction__created_by__username +
+                " have split " +
+                parseInt(
+                  details.reduce((partialSum, a) => partialSum + a.amount, 0)
+                )}
+          </div>
           {details.map((detail) => (
             <div>
-              <div>{detail.destination.username} will pay {detail.amount}</div>
+              <div>
+                <b>{detail.destination.username}</b> will pay {detail.total_amount}.{" "}
+                <b>Status:</b> {detail.completed ? "Paid" : "Not Paid"}
+              </div>
             </div>
           ))}
         </Modal.Body>
@@ -208,7 +258,7 @@ export default function TransactionCard(props) {
                       <DropdownItem onClick={handleShow}>Delete</DropdownItem>
                     </div>
                   ) : (
-                    <DropdownItem>Pay</DropdownItem>
+                    <DropdownItem onClick={handleShowPay}>Pay</DropdownItem>
                   )}
 
                   <DropdownItem

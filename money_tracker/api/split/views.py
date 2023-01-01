@@ -9,6 +9,7 @@ from money_tracker.api.split.serializers import (
     SplitGroupSerializer,
     SplitCompletedGetSerializer,
     SplitTransactionDetailsSerializer,
+    SplitPaySerializer,
 )
 from money_tracker.models import Split, Transaction
 
@@ -87,3 +88,44 @@ class SplitTransactionDetailsView(generics.ListAPIView):
             raise PermissionDenied("You cannot view this transaction")
 
         return details
+
+
+class SplitPayView(generics.CreateAPIView):
+    serializer_class = SplitPaySerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        try:
+            transaction = Transaction.objects.get(id=self.kwargs["transaction_id"])
+        except Transaction.DoesNotExist:
+            raise NotFound("Requested transaction does not exist")
+        try:
+            split = Split.objects.get(
+                source=self.request.user, transaction=transaction, completed=False
+            )
+        except Split.DoesNotExist:
+            raise PermissionDenied("You are not part of this transaction.")
+
+        if split.amount > 0:
+            raise PermissionDenied("You are not part of this transaction.")
+
+        if self.request.user.balance.balance + split.amount < 0:
+            raise PermissionDenied("You do not have enough balance.")
+
+        split.completed = True
+        split.save()
+
+        reverse_split = Split.objects.get(
+            source=split.destination,
+            destination=split.source,
+            transaction=transaction,
+        )
+        reverse_split.completed = True
+        reverse_split.save(force_update=True)
+
+        self.request.user.balance.balance += split.amount
+        self.request.user.balance.save()
+        split.destination.balance.balance -= split.amount
+        split.destination.balance.save()
+
+        return split

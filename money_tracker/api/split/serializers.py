@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.exceptions import PermissionDenied
 
 from money_tracker.models import Split, Transaction
 
@@ -153,3 +154,16 @@ class SplitTransactionDetailsSerializer(serializers.ModelSerializer):
         model = Split
         fields = "__all__"
         depth = 1
+
+
+class SplitPaySerializer(serializers.ModelSerializer):
+    source = serializers.PrimaryKeyRelatedField(
+        default=serializers.CurrentUserDefault(), read_only=True
+    )
+    destination = serializers.PrimaryKeyRelatedField(read_only=True)
+    transaction = TransactionSplitSerializer(read_only=True)
+    amount = serializers.IntegerField(read_only=True, allow_null=False)
+
+    class Meta:
+        model = Split
+        fields = ("source", "destination", "transaction", "amount")
