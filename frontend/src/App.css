@@ -21,11 +21,11 @@
 }
 
 .modal-title {
-  font-family: "Lobster", cursive;
+  font-family: "Lobster", cursive !important;
 }
 
 .custom-modal {
-  border-radius: 0px !important;
+  border-radius: 0 !important;
   background-color: #f2f2f2 !important;
 }
 

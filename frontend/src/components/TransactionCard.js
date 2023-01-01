@@ -23,20 +23,26 @@ import { baseURL } from "../utils/constants";
 
 export default function TransactionCard(props) {
   const [show, setShow] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [showupdate, setShowupdate] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [details, setDetails] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [showupdate, setShowupdate] = useState(false);
   const handleCloseUpdate = () => setShowupdate(false);
   const handleShowUpdate = () => setShowupdate(true);
+  const handleCloseDetails = () => setShowDetails(false);
+  const handleShowDetails = () => setShowDetails(true);
   const api = useAxios();
   const Update = async (e) => {
     e.preventDefault();
     await api
-      .put(baseURL + `/transaction/${props.transaction.transaction__id}/update/`, {
-        name: e.target.name.value,
-        description: e.target.description.value,
-      })
+      .put(
+        baseURL + `/transaction/${props.transaction.transaction__id}/update/`,
+        {
+          name: e.target.name.value,
+          description: e.target.description.value,
+        }
+      )
       .then(() => {
         handleCloseUpdate();
         window.location.reload();
@@ -54,6 +60,16 @@ export default function TransactionCard(props) {
       })
       .catch((err) => console.log(err));
   };
+
+  const getDetails = async () => {
+    await api
+      .get(baseURL + `/split/${props.transaction.transaction__id}/details/`)
+      .then((res) => {
+        setDetails(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="password-card">
       <div>
@@ -69,7 +85,7 @@ export default function TransactionCard(props) {
         >
           <Form onSubmit={Update}>
             <Modal.Header closeButton>
-              <Modal.Title>UPDATE NOTE</Modal.Title>
+              <Modal.Title>Update Transaction</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div align="left">
@@ -103,6 +119,7 @@ export default function TransactionCard(props) {
         </Modal>
       </div>
       <Modal
+        contentClassName="custom-modal"
         id="modal"
         show={show}
         onHide={handleClose}
@@ -111,7 +128,9 @@ export default function TransactionCard(props) {
         size="md"
         style={{ fontFamily: "Montserrat" }}
       >
-        <Modal.Header closeButton>Delete Transaction</Modal.Header>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Transaction</Modal.Title>
+        </Modal.Header>
         <Modal.Body>
           <div style={{ fontSize: "2rem" }}>Are you sure?</div>
           This action cannot be undone.
@@ -124,6 +143,27 @@ export default function TransactionCard(props) {
             Cancel
           </Button>
         </Modal.Footer>
+      </Modal>
+      <Modal
+        contentClassName="custom-modal"
+        id="modal"
+        show={showDetails}
+        onHide={handleCloseDetails}
+        align="center"
+        centered
+        size="md"
+        style={{ fontFamily: "Montserrat" }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{props.transaction.transaction__name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {details.map((detail) => (
+            <div>
+              <div>{detail.destination.username} will pay {detail.amount}</div>
+            </div>
+          ))}
+        </Modal.Body>
       </Modal>
 
       <Container>
@@ -171,42 +211,14 @@ export default function TransactionCard(props) {
                     <DropdownItem>Pay</DropdownItem>
                   )}
 
-                  <DropdownItem>Details</DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      getDetails().then(() => handleShowDetails());
+                    }}
+                  >
+                    Details
+                  </DropdownItem>
                 </DropdownButton>
-                {/*<Button*/}
-                {/*  style={{ float: "right" }}*/}
-                {/*  className="bg-transparent"*/}
-                {/*  onClick={handleShow}*/}
-                {/*  variant="outline-danger"*/}
-                {/*>*/}
-                {/*  <FaTrashAlt*/}
-                {/*    style={{ marginBottom: 4 }}*/}
-                {/*    className="text-danger"*/}
-                {/*  />*/}
-                {/*</Button>*/}
-                {/*<Button*/}
-                {/*  style={{ float: "right", marginRight: "1rem" }}*/}
-                {/*  onClick={handleShowUpdate}*/}
-                {/*  variant="outline-success"*/}
-                {/*>*/}
-                {/*  <FaPencilAlt style={{ marginBottom: 4 }} />*/}
-                {/*</Button>*/}
-                {/*<Button*/}
-                {/*  onClick={() => setOpen(!open)}*/}
-                {/*  aria-controls="example-collapse-text"*/}
-                {/*  aria-expanded={open}*/}
-                {/*  className="bg-transparent"*/}
-                {/*  variant="outline-dark"*/}
-                {/*  style={{ float: "right", marginRight: "1rem" }}*/}
-                {/*>*/}
-                {/*  <div className="text-dark">*/}
-                {/*    {open ? (*/}
-                {/*      <FaEyeSlash style={{ marginBottom: 4 }} />*/}
-                {/*    ) : (*/}
-                {/*      <FaEye style={{ marginBottom: 4 }} />*/}
-                {/*    )}*/}
-                {/*  </div>*/}
-                {/*</Button>*/}
               </Col>
             </Row>
           </Col>

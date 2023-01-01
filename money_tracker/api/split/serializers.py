@@ -145,9 +145,7 @@ class SplitGroupSerializer(serializers.ModelSerializer):
 
 
 class SplitTransactionDetailsSerializer(serializers.ModelSerializer):
-    source = serializers.PrimaryKeyRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
+    source = serializers.PrimaryKeyRelatedField(read_only=True)
     destination = UserSplitSerializer(read_only=True)
     transaction = serializers.PrimaryKeyRelatedField(queryset=Transaction.objects.all())
 
