@@ -72,14 +72,16 @@ export function HomePage() {
                 </div>
               </Col>
             </Row>
-            {transactions?.length > 0
-              ? transactions.map((transaction) => (
-                  <TransactionCard
-                    key={transaction.transaction__id}
-                    transaction={transaction}
-                  />
-                ))
-              : <div style={{ marginTop: "2rem" }}>No transaction to show</div>}
+            {transactions?.length > 0 ? (
+              transactions.map((transaction) => (
+                <TransactionCard
+                  key={transaction.transaction__id}
+                  transaction={transaction}
+                />
+              ))
+            ) : (
+              <div style={{ marginTop: "2rem" }}>No transaction to show</div>
+            )}
           </Col>
         </Row>
       </Container>

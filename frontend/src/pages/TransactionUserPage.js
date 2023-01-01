@@ -32,14 +32,18 @@ export function TransactionUserPage() {
       <Container className="home-container">
         <Row>
           <Col className={"main-home"}>
-            {splitGroups?.length > 0
-              ? splitGroups.map((splitUser) => (
-                  <TransactionUserCard
-                    key={splitUser.destination}
-                    splitUser={splitUser}
-                  />
-                ))
-              : <div style={{ marginTop: "2rem" }}>You neither owe to anyone nor anyone owes you.</div>}
+            {splitGroups?.length > 0 ? (
+              splitGroups.map((splitUser) => (
+                <TransactionUserCard
+                  key={splitUser.destination}
+                  splitUser={splitUser}
+                />
+              ))
+            ) : (
+              <div style={{ marginTop: "2rem" }}>
+                You neither owe to anyone nor anyone owes you.
+              </div>
+            )}
           </Col>
         </Row>
       </Container>

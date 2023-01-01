@@ -59,7 +59,9 @@ export default function TransactionPage() {
                 </tbody>
               </Table>
             ) : (
-              <div style={{ marginTop: "2rem" }}>No completed transaction to show</div>
+              <div style={{ marginTop: "2rem" }}>
+                No completed transaction to show
+              </div>
             )}
           </Col>
         </Row>

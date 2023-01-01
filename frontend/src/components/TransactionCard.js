@@ -9,9 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  FaEllipsisH,
-} from "react-icons/fa";
+import { FaEllipsisH } from "react-icons/fa";
 import React, { useState } from "react";
 import useAxios from "../utils/useAxios";
 import DropdownItem from "react-bootstrap/DropdownItem";
@@ -62,16 +60,13 @@ export default function TransactionCard(props) {
 
   const Pay = async () => {
     await api
-      .post(
-        baseURL + `/split/${props.transaction.transaction__id}/pay/`
-      )
+      .post(baseURL + `/split/${props.transaction.transaction__id}/pay/`)
       .then(() => {
         handleClosePay();
         window.location.reload();
       })
       .catch((err) => console.log(err));
   };
-
 
   const getDetails = async () => {
     await api
@@ -171,7 +166,8 @@ export default function TransactionCard(props) {
         </Modal.Header>
         <Modal.Body>
           <div style={{ fontSize: "2rem" }}>Are you sure?</div>
-          You will pay {-parseInt(props.transaction.total_amount)} to {props.transaction.transaction__created_by__username}.
+          You will pay {-parseInt(props.transaction.total_amount)} to{" "}
+          {props.transaction.transaction__created_by__username}.
         </Modal.Body>
         <Modal.Footer>
           <Button variant="success" onClick={Pay}>
@@ -208,8 +204,9 @@ export default function TransactionCard(props) {
           {details.map((detail) => (
             <div>
               <div>
-                <b>{detail.destination.username}</b> will pay {detail.total_amount}.{" "}
-                <b>Status:</b> {detail.completed ? "Paid" : "Not Paid"}
+                <b>{detail.destination.username}</b> will pay{" "}
+                {detail.total_amount}. <b>Status:</b>{" "}
+                {detail.completed ? "Paid" : "Not Paid"}
               </div>
             </div>
           ))}

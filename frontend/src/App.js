@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { TransactionUserPage } from "./pages/TransactionUserPage";
 import TransactionPage from "./pages/TransactionPage";
+import FriendPage from "./pages/FriendPage";
 
 export default function App() {
   return (
@@ -47,6 +48,17 @@ export default function App() {
                 <ProtectedRoute>
                   <ProSidebarProvider>
                     <TransactionPage />
+                  </ProSidebarProvider>
+                </ProtectedRoute>
+              }
+              exact
+            />
+            <Route
+              path="/friends"
+              element={
+                <ProtectedRoute>
+                  <ProSidebarProvider>
+                    <FriendPage />
                   </ProSidebarProvider>
                 </ProtectedRoute>
               }

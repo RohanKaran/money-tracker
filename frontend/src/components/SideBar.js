@@ -42,7 +42,12 @@ export function SideBar() {
           Transactions
         </MenuItem>
         <SubMenu label={"Users"} icon={<FaUser />}>
-          <MenuItem icon={<FaUserFriends />}>Friends</MenuItem>
+          <MenuItem
+            icon={<FaUserFriends />}
+            onClick={() => navigate("/friends")}
+          >
+            Friends
+          </MenuItem>
           <MenuItem
             icon={<FaUserMd />}
             onClick={() => navigate("/transaction-users")}
