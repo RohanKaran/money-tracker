@@ -39,7 +39,7 @@ export function TransactionUserPage() {
                     splitUser={splitUser}
                   />
                 ))
-              : <div style={{ marginTop: "2rem" }}>You have not done any split and none have requested money from you</div>}
+              : <div style={{ marginTop: "2rem" }}>You neither owe to anyone nor anyone owes you.</div>}
           </Col>
         </Row>
       </Container>
