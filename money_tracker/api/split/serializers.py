@@ -14,7 +14,7 @@ class SplitSerializer(serializers.ModelSerializer):
 
 class TransactionSplitSerializer(serializers.ModelSerializer):
     name = serializers.CharField(allow_null=False, allow_blank=False)
-    description = serializers.CharField(required=False, allow_blank=True)
+    description = serializers.CharField(allow_blank=True)
 
     class Meta:
         model = Transaction

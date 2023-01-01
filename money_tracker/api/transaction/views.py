@@ -27,3 +27,18 @@ class TransactionDeleteView(generics.DestroyAPIView):
             raise PermissionDenied("You cannot delete this transaction")
 
         transaction.delete()
+
+
+class TransactionUpdateView(generics.UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    queryset = Transaction.objects.all()
+
+    def perform_update(self, serializer):
+        try:
+            transaction = Transaction.objects.get(id=self.kwargs["pk"])
+        except Transaction.DoesNotExist:
+            raise NotFound("Requested transaction does not exist")
+        if transaction.created_by.id != self.request.user.id:
+            raise PermissionDenied("You cannot update this transaction")
+
+        serializer.save()

@@ -45,7 +45,9 @@ export default function TransactionCard(props) {
   };
   const Delete = async () => {
     await api
-      .delete(baseURL + `/transaction/${props.key}/delete/`)
+      .delete(
+        baseURL + `/transaction/${props.transaction.transaction__id}/delete/`
+      )
       .then(() => {
         handleClose();
         window.location.reload();
@@ -158,7 +160,7 @@ export default function TransactionCard(props) {
                   variant="outline-secondary"
                   title={<FaEllipsisH />}
                 >
-                  {props.transaction.name ? (
+                  {props.transaction?.total_amount > 0 ? (
                     <div>
                       <DropdownItem onClick={handleShowUpdate}>
                         Edit
