@@ -2,7 +2,10 @@ from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.permissions import IsAuthenticated
 
-from money_tracker.api.transaction.serializers import TransactionSerializer
+from money_tracker.api.transaction.serializers import (
+    TransactionSerializer,
+    TransactionUpdateSerializer,
+)
 from money_tracker.models import Transaction
 
 
@@ -31,6 +34,7 @@ class TransactionDeleteView(generics.DestroyAPIView):
 
 class TransactionUpdateView(generics.UpdateAPIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = TransactionUpdateSerializer
     queryset = Transaction.objects.all()
 
     def perform_update(self, serializer):

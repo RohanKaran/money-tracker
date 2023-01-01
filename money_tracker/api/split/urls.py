@@ -5,6 +5,7 @@ from money_tracker.api.split.views import (
     SplitGetView,
     SplitGroupView,
     SplitCompletedGetView,
+    SplitTransactionDetailsView,
 )
 
 urlpatterns = [
@@ -12,4 +13,9 @@ urlpatterns = [
     path("create/", SplitAddView.as_view(), name="create-split"),
     path("group/", SplitGroupView.as_view(), name="group-split"),
     path("completed/", SplitCompletedGetView.as_view(), name="completed-split"),
+    path(
+        "<int:transaction_id>/details/",
+        SplitTransactionDetailsView.as_view(),
+        name="split-transaction-details",
+    ),
 ]

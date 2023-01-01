@@ -97,6 +97,7 @@ class SplitGetSerializer(serializers.ModelSerializer):
     transaction = serializers.IntegerField(read_only=True)
     total_amount = serializers.IntegerField(read_only=True)
     transaction__name = serializers.CharField(read_only=True)
+    transaction__description = serializers.CharField(read_only=True)
     transaction__id = serializers.IntegerField(read_only=True)
     transaction__created_by__username = serializers.CharField(read_only=True)
 
@@ -108,6 +109,7 @@ class SplitGetSerializer(serializers.ModelSerializer):
             "total_amount",
             "transaction__id",
             "transaction__name",
+            "transaction__description",
             "transaction__created_by__username",
         )
 
@@ -140,3 +142,16 @@ class SplitGroupSerializer(serializers.ModelSerializer):
             "destination__email",
             "destination__username",
         )
+
+
+class SplitTransactionDetailsSerializer(serializers.ModelSerializer):
+    source = serializers.PrimaryKeyRelatedField(
+        default=serializers.CurrentUserDefault(), read_only=True
+    )
+    destination = UserSplitSerializer(read_only=True)
+    transaction = serializers.PrimaryKeyRelatedField(queryset=Transaction.objects.all())
+
+    class Meta:
+        model = Split
+        fields = "__all__"
+        depth = 1

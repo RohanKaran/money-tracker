@@ -33,9 +33,9 @@ export default function TransactionCard(props) {
   const Update = async (e) => {
     e.preventDefault();
     await api
-      .put(`note/update/${props.note.id}/`, {
-        title: e.target.title.value,
-        // content: encrypt(e.target.note.value),
+      .put(baseURL + `/transaction/${props.transaction.transaction__id}/update/`, {
+        name: e.target.name.value,
+        description: e.target.description.value,
       })
       .then(() => {
         handleCloseUpdate();
@@ -73,22 +73,22 @@ export default function TransactionCard(props) {
             </Modal.Header>
             <Modal.Body>
               <div align="left">
-                <Form.Group className="mb-3" controlId="title">
+                <Form.Group className="mb-3" controlId="name">
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter a title"
-                    // defaultValue={props.note.title}
+                    placeholder="Enter a name"
+                    defaultValue={props.transaction.transaction__name}
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="note">
+                <Form.Group className="mb-3" controlId="description">
                   <Form.Label>Note</Form.Label>
                   <Form.Control
                     type="textarea"
-                    placeholder="Enter your note"
-                    required
+                    placeholder="Enter description"
                     as="textarea"
+                    defaultValue={props.transaction.transaction__description}
                     rows={6}
                   />
                 </Form.Group>
