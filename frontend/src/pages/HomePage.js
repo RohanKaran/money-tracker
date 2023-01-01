@@ -79,7 +79,7 @@ export function HomePage() {
                     transaction={transaction}
                   />
                 ))
-              : null}
+              : <div style={{ marginTop: "2rem" }}>No transaction to show</div>}
           </Col>
         </Row>
       </Container>
