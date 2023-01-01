@@ -50,7 +50,7 @@ export default function SplitAdd() {
         navigate("/");
         window.location.reload();
       })
-      .catch((e) => alert(e));
+      .catch((e) => alert(e.response.data.detail || e));
   };
   return (
     <>

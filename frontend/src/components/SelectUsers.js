@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useAxios from "../utils/useAxios";
 import { baseURL } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
+import AuthContext from "../context/AuthContext";
 
 export default function SelectUsers(props) {
   const api = useAxios();
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const { currentUser } = useContext(AuthContext);
   useEffect(() => {
     api
       .get(baseURL + "/user/")
@@ -23,6 +25,10 @@ export default function SelectUsers(props) {
   const appendUser = (u) => {
     let user = u;
     u.amount = 0;
+    if (currentUser.id === u.id) {
+      alert("You can't add yourself");
+      return;
+    }
     for (let i in props.selectedUsers) {
       if (user.id === props.selectedUsers[i].id) return;
     }

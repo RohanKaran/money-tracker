@@ -51,6 +51,8 @@ class SplitAddSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
+        if validated_data["source"] in validated_data["destination"]:
+            raise PermissionDenied("You cannot split with yourself.")
         current_time = datetime.now(tz=timezone.utc)
         transaction = Transaction.objects.create(
             name=validated_data["transaction"]["name"],
