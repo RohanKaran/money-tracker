@@ -205,7 +205,7 @@ export default function TransactionCard(props) {
             <div>
               <div>
                 <b>{detail.destination.username}</b> will pay{" "}
-                {detail.total_amount}. <b>Status:</b>{" "}
+                {detail.amount}. <b>Status:</b>{" "}
                 {detail.completed ? "Paid" : "Not Paid"}
               </div>
             </div>
