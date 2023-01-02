@@ -36,6 +36,10 @@ export default function SplitAdd() {
         amount.push(parseInt(selectedUsers[i].amount));
       }
     }
+    if (amount.reduce((a, b) => a + b, 0) === 0) {
+      alert("Please enter valid amounts");
+      return;
+    }
     await api
       .post(baseURL + "/split/create/", {
         transaction: {
