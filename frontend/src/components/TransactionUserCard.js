@@ -3,7 +3,7 @@ import React from "react";
 
 export default function TransactionUserCard(props) {
   return (
-    <div className="transaction-user-card">
+    <div className="custom-card">
       <br />
       <br />
       <Container>

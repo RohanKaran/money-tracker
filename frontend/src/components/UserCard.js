@@ -18,7 +18,7 @@ export default function UserCard(props) {
       .catch((e) => alert(e));
   };
   return (
-    <div className="user-card">
+    <div className="custom-card">
       <br />
       <br />
       <Container>

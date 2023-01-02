@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lobster&family=Roboto+Condensed&display=swap");
 
 :root {
-  --bs-body-bg: #ecf0ef;
+  --bs-body-bg: #ecf0ef !important;
 }
 
 .card {
@@ -93,7 +93,7 @@ span {
   font-size: 13px;
 }
 
-.password-card {
+.custom-card {
   background-color: white;
   margin: 1rem;
   padding: 1rem;

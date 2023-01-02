@@ -57,7 +57,6 @@ export default function FriendPage() {
             </Row>
             <Tabs
               className="mb-3"
-              fill
               activeKey={key}
               onSelect={(k) => setKey(k)}
             >

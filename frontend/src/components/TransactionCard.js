@@ -78,7 +78,7 @@ export default function TransactionCard(props) {
   };
 
   return (
-    <div className="password-card">
+    <div className="custom-card">
       <div>
         <Modal
           contentClassName="custom-modal"
